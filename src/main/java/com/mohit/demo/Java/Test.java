@@ -1,4 +1,4 @@
-package com.mohit.demo;
+package com.mohit.demo.Java;
 
 
 class p{
