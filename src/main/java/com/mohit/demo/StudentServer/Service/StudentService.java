@@ -25,4 +25,13 @@ public class StudentService {
     public  Student getStudentById(int id){
         return studentRepository.findById(id).orElse(null);
     }
+    public  Student deleteStudentById(int id){
+        Student student=studentRepository.findById(id).orElse(null);
+        if(student!=null){
+            studentRepository.delete(student);
+        }
+        return  student;
+
+
+    }
 }

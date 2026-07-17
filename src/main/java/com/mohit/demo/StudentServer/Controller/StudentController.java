@@ -25,4 +25,12 @@ public class StudentController {
         Student student=studentService.getStudentById(id);
         return ResponseEntity.status(200).body(student);
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteStudentById(@PathVariable int id){
+        Student student=studentService.deleteStudentById(id);
+        return ResponseEntity.status(200).body("Student  Deleted successfully");
+
+
+
+    }
 }
