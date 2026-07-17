@@ -34,4 +34,13 @@ public class StudentService {
 
 
     }
+    public Student updateStudent(int id, Student studentDetails) {
+        if (!studentRepository.existsById(id)) {
+            return null;
+        }
+        studentDetails.setId(id);
+
+        return studentValidate(studentDetails);
+    }
+
 }

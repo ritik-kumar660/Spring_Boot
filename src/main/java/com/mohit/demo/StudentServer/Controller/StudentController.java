@@ -2,6 +2,7 @@ package com.mohit.demo.StudentServer.Controller;
 
 import com.mohit.demo.StudentServer.Entity.Student;
 import com.mohit.demo.StudentServer.Service.StudentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,4 +34,15 @@ public class StudentController {
 
 
     }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody Student studentDetails) {
+        Student updatedStudent = studentService.updateStudent(id, studentDetails);
+        if (updatedStudent == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Update failed: Student not found or validation failed.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedStudent);
+    }
+
 }
