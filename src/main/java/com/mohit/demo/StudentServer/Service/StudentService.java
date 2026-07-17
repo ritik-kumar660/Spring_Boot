@@ -1,5 +1,7 @@
-package com.mohit.demo.StudentServer;
+package com.mohit.demo.StudentServer.Service;
 
+import com.mohit.demo.StudentServer.Entity.Student;
+import com.mohit.demo.StudentServer.Repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,5 +21,8 @@ public class StudentService {
         }
         studentRepository.save(student);
         return student;
+    }
+    public  Student getStudentById(int id){
+        return studentRepository.findById(id).orElse(null);
     }
 }
