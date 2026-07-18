@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@CrossOrigin(origins = "*")
 public class StudentController {
     //1. to store the data
     StudentService studentService;
@@ -43,6 +46,10 @@ public class StudentController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedStudent);
+    }
+    @GetMapping("/getAll")
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
     }
 
 }

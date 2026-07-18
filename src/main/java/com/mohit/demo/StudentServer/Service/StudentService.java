@@ -4,6 +4,8 @@ import com.mohit.demo.StudentServer.Entity.Student;
 import com.mohit.demo.StudentServer.Repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 
 public class StudentService {
@@ -35,12 +37,21 @@ public class StudentService {
 
     }
     public Student updateStudent(int id, Student studentDetails) {
-        if (!studentRepository.existsById(id)) {
+
+        Student existingStudent = studentRepository.findById(id).orElse(null);
+
+        if (existingStudent == null) {
             return null;
         }
-        studentDetails.setId(id);
 
-        return studentValidate(studentDetails);
+        existingStudent.setName(studentDetails.getName());
+        existingStudent.setAge(studentDetails.getAge());
+        existingStudent.setDep(studentDetails.getDep());
+
+        return studentRepository.save(existingStudent);
+    }
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
     }
 
 }
