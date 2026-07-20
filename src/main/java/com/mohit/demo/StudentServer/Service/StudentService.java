@@ -1,5 +1,7 @@
 package com.mohit.demo.StudentServer.Service;
 
+import com.mohit.demo.StudentServer.DTO.CreateStudentRequestDTO;
+import com.mohit.demo.StudentServer.DTO.CreateStudentResponseDTO;
 import com.mohit.demo.StudentServer.Entity.Student;
 import com.mohit.demo.StudentServer.Repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -13,16 +15,35 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository){
         this.studentRepository=studentRepository;
     }
-    public Student studentValidate(Student student){
-        int id= student.getId();
-        String name= student.getName();
-        int age= student.getAge();
-        String dep= student.getDep();
-        if(id<0 || age<0 || name==null || dep==null){
+    public CreateStudentResponseDTO studentValidate(CreateStudentRequestDTO dto){
+
+        if(dto.getId() < 0 ||
+                dto.getAge() < 0 ||
+                dto.getName() == null ||
+                dto.getDep() == null){
+
             return null;
         }
-        studentRepository.save(student);
-        return student;
+
+        Student student = new Student();
+
+        student.setId(dto.getId());
+        student.setName(dto.getName());
+        student.setAge(dto.getAge());
+        student.setDep(dto.getDep());
+
+        Student savedStudent = studentRepository.save(student);
+
+        CreateStudentResponseDTO response = new CreateStudentResponseDTO();
+
+        response.setId(savedStudent.getId());
+        response.setName(savedStudent.getName());
+        response.setAge(savedStudent.getAge());
+        response.setDep(savedStudent.getDep());
+        response.setCreatedAt(savedStudent.getCreatedAt());
+        response.setUpdatedAt(savedStudent.getUpdatedAt());
+
+        return response;
     }
     public  Student getStudentById(int id){
         return studentRepository.findById(id).orElse(null);

@@ -1,5 +1,7 @@
 package com.mohit.demo.StudentServer.Controller;
 
+import com.mohit.demo.StudentServer.DTO.CreateStudentRequestDTO;
+import com.mohit.demo.StudentServer.DTO.CreateStudentResponseDTO;
 import com.mohit.demo.StudentServer.Entity.Student;
 import com.mohit.demo.StudentServer.Service.StudentService;
 import org.springframework.http.HttpStatus;
@@ -17,12 +19,17 @@ public class StudentController {
         this.studentService=studentService;
     }
     @PostMapping("/create")
-    public ResponseEntity<Student> storeStudent(@RequestBody Student student){
-        Student result = studentService.studentValidate(student);
-        if(result==null){
-           return ResponseEntity.status(400).body(null);
+    public ResponseEntity<CreateStudentResponseDTO> storeStudent(
+            @RequestBody CreateStudentRequestDTO requestDTO) {
+
+        CreateStudentResponseDTO responseDTO =
+                studentService.studentValidate(requestDTO);
+
+        if(responseDTO == null){
+            return ResponseEntity.badRequest().body(null);
         }
-        return ResponseEntity.status(201).body(result);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
     @GetMapping("/get/{id}")
     public  ResponseEntity<?>  getStudentById(@PathVariable  int id){
