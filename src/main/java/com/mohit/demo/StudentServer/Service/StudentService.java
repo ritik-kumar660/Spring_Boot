@@ -9,21 +9,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-
 public class StudentService {
-    StudentRepository studentRepository;
-    public StudentService(StudentRepository studentRepository){
-        this.studentRepository=studentRepository;
+
+    private final StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
-    public CreateStudentResponseDTO studentValidate(CreateStudentRequestDTO dto){
 
-        if(dto.getId() < 0 ||
-                dto.getAge() < 0 ||
-                dto.getName() == null ||
-                dto.getDep() == null){
+    // ==========================
+    // Create Student
+    // ==========================
 
-            return null;
-        }
+    public CreateStudentResponseDTO createStudent(CreateStudentRequestDTO dto) {
 
         Student student = new Student();
 
@@ -45,34 +43,57 @@ public class StudentService {
 
         return response;
     }
-    public  Student getStudentById(int id){
+
+    // ==========================
+    // Get Student By Id
+    // ==========================
+
+    public Student getStudentById(int id) {
         return studentRepository.findById(id).orElse(null);
     }
-    public  Student deleteStudentById(int id){
-        Student student=studentRepository.findById(id).orElse(null);
-        if(student!=null){
-            studentRepository.delete(student);
-        }
-        return  student;
 
+    // ==========================
+    // Get All Students
+    // ==========================
 
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
     }
-    public Student updateStudent(int id, Student studentDetails) {
 
-        Student existingStudent = studentRepository.findById(id).orElse(null);
+    // ==========================
+    // Update Student
+    // ==========================
+
+    public Student updateStudent(int id, CreateStudentRequestDTO dto) {
+
+        Student existingStudent =
+                studentRepository.findById(id).orElse(null);
 
         if (existingStudent == null) {
             return null;
         }
 
-        existingStudent.setName(studentDetails.getName());
-        existingStudent.setAge(studentDetails.getAge());
-        existingStudent.setDep(studentDetails.getDep());
+        existingStudent.setName(dto.getName());
+        existingStudent.setAge(dto.getAge());
+        existingStudent.setDep(dto.getDep());
 
         return studentRepository.save(existingStudent);
     }
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+
+    // ==========================
+    // Delete Student
+    // ==========================
+
+    public Student deleteStudentById(int id) {
+
+        Student student =
+                studentRepository.findById(id).orElse(null);
+
+        if (student != null) {
+            studentRepository.delete(student);
+        }
+
+        return student;
     }
 
 }

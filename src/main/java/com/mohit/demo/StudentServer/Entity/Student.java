@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Student {
 
     @Id
-    private int id;
+    private Integer id;
 
     private String name;
 
@@ -37,24 +37,36 @@ public class Student {
     public Student() {
     }
 
-    // ===========================
-    // Getters
-    // ===========================
-
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getAge() {
         return age;
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public String getDep() {
         return dep;
+    }
+
+    public void setDep(String dep) {
+        this.dep = dep;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -64,26 +76,4 @@ public class Student {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-
-    // ===========================
-    // Setters
-    // ===========================
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setDep(String dep) {
-        this.dep = dep;
-    }
-
-    // No setters for timestamps because Hibernate manages them automatically.
 }

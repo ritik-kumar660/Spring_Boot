@@ -4,167 +4,293 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Management Dashboard</title>
+<style>
+    :root{
+    --primary:#4f46e5;
+    --primary-hover:#4338ca;
 
-    <style>
-        /* CSS will come in Part 2 */
-        :root{
-            --primary:#4f46e5;
-            --primary-hover:#4338ca;
-            --danger:#ef4444;
-            --danger-hover:#dc2626;
-            --success:#10b981;
-            --light:#f3f4f6;
-            --dark:#1f2937;
-            --border:#e5e7eb;
-        }
+    --danger:#ef4444;
+    --danger-hover:#dc2626;
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
-        }
+    --success:#10b981;
 
-        body{
-            background:#f8fafc;
-            padding:40px 20px;
-            color:var(--dark);
-        }
+    --light:#f3f4f6;
 
-        .container{
-            max-width:1100px;
-            margin:auto;
-        }
+    --dark:#1f2937;
 
-        h1{
-            text-align:center;
-            margin-bottom:30px;
-        }
+    --border:#d1d5db;
 
-        .layout{
-            display:grid;
-            grid-template-columns:1fr 2fr;
-            gap:25px;
-        }
+    --shadow:0 10px 25px rgba(0,0,0,.08);
+    }
 
-        @media(max-width:768px){
-            .layout{
-                grid-template-columns:1fr;
-            }
-        }
+    *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
+    }
 
-        .card{
-            background:#fff;
-            padding:25px;
-            border-radius:10px;
-            box-shadow:0 4px 12px rgba(0,0,0,.08);
-        }
+    body{
+    background:#f8fafc;
+    padding:40px 20px;
+    color:var(--dark);
+    }
 
-        .card h2{
-            margin-bottom:20px;
-        }
+    .container{
+    max-width:1200px;
+    margin:auto;
+    }
 
-        .form-group{
-            margin-bottom:15px;
-        }
+    h1{
+    text-align:center;
+    margin-bottom:30px;
+    }
 
-        label{
-            display:block;
-            margin-bottom:6px;
-            font-weight:600;
-        }
+    .layout{
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    gap:25px;
+    }
 
-        input{
-            width:100%;
-            padding:10px;
-            border:1px solid var(--border);
-            border-radius:6px;
-            font-size:15px;
-        }
+    @media(max-width:900px){
 
-        input:focus{
-            outline:none;
-            border-color:var(--primary);
-        }
+    .layout{
+    grid-template-columns:1fr;
+    }
 
-        .btn-group{
-            display:flex;
-            gap:10px;
-            margin-top:20px;
-        }
+    }
 
-        button{
-            cursor:pointer;
-            border:none;
-            padding:10px 15px;
-            border-radius:6px;
-            font-weight:600;
-        }
+    .card{
+    background:white;
+    border-radius:10px;
+    padding:25px;
+    box-shadow:var(--shadow);
+    }
 
-        #btnSave{
-            flex:1;
-            background:var(--primary);
-            color:white;
-        }
+    .card h2{
+    margin-bottom:20px;
+    }
 
-        #btnSave:hover{
-            background:var(--primary-hover);
-        }
+    .form-group{
+    margin-bottom:18px;
+    }
 
-        #btnClearBtn{
-            flex:1;
-            background:#e5e7eb;
-        }
+    label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:600;
+    }
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-        }
+    input{
+    width:100%;
+    padding:11px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    font-size:15px;
+    transition:.3s;
+    }
 
-        th{
-            background:#eef2ff;
-        }
+    input:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 5px rgba(79,70,229,.3);
+    }
 
-        th,td{
-            padding:12px;
-            border:1px solid #ddd;
-            text-align:left;
-        }
+    /* ----------------------------
+    Validation Errors
+    ----------------------------- */
 
-        tr:hover{
-            background:#f9fafb;
-        }
+    .error{
 
-        .editBtn{
-            background:#2563eb;
-            color:white;
-            margin-right:5px;
-        }
+    display:block;
 
-        .deleteBtn{
-            background:#dc2626;
-            color:white;
-        }
+    color:#dc2626;
 
-        .alert{
-            display:none;
-            padding:12px;
-            border-radius:6px;
-            margin-bottom:20px;
-            font-weight:bold;
-        }
+    font-size:13px;
 
-        .alert-success{
-            display:block;
-            background:#dcfce7;
-            color:#166534;
-        }
+    margin-top:5px;
 
-        .alert-danger{
-            display:block;
-            background:#fee2e2;
-            color:#991b1b;
-        }
+    min-height:18px;
+
+    font-weight:500;
+
+    }
+
+    /* red border */
+
+    .input-error{
+
+    border:1px solid #dc2626 !important;
+
+    }
+
+    /* green border */
+
+    .input-success{
+
+    border:1px solid #10b981 !important;
+
+    }
+
+    .btn-group{
+    display:flex;
+    gap:10px;
+    margin-top:25px;
+    }
+
+    button{
+
+    flex:1;
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:12px;
+
+    border-radius:6px;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+    }
+
+    #btnSave{
+
+    background:var(--primary);
+
+    }
+
+    #btnSave:hover{
+
+    background:var(--primary-hover);
+
+    }
+
+    #btnClearBtn{
+
+    background:#6b7280;
+
+    }
+
+    #btnClearBtn:hover{
+
+    background:#4b5563;
+
+    }
+
+    /* -------------------
+    Alert
+    -------------------- */
+
+    .alert{
+
+    display:none;
+
+    padding:15px;
+
+    border-radius:6px;
+
+    margin-bottom:20px;
+
+    font-weight:bold;
+
+    }
+
+    .alert-success{
+
+    display:block;
+
+    background:#dcfce7;
+
+    color:#166534;
+
+    }
+
+    .alert-danger{
+
+    display:block;
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+    }
+
+    /* --------------------
+    Table
+    --------------------- */
+
+    table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    }
+
+    thead{
+
+    background:#eef2ff;
+
+    }
+
+    th,td{
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    text-align:left;
+
+    }
+
+    tbody tr:hover{
+
+    background:#f9fafb;
+
+    }
+
+    .editBtn{
+
+    background:#2563eb;
+
+    margin-right:5px;
+
+    }
+
+    .editBtn:hover{
+
+    background:#1d4ed8;
+
+    }
+
+    .deleteBtn{
+
+    background:#dc2626;
+
+    }
+
+    .deleteBtn:hover{
+
+    background:#b91c1c;
+
+    }
+
+    #noDataRow td{
+
+    text-align:center;
+
+    font-weight:bold;
+
+    color:#666;
+
+    }
     </style>
 </head>
 <body>
@@ -177,50 +303,136 @@
 
     <div class="layout">
 
-        <!-- Form -->
+        <!-- =======================
+             Student Form
+        ======================== -->
+
         <div class="card">
 
             <h2 id="formTitle">Add Student</h2>
 
             <form id="studentForm">
 
-                <input type="hidden" id="isEditMode" value="false">
+                <input
+                        type="hidden"
+                        id="isEditMode"
+                        value="false"
+                >
+
+                <!-- Student Id -->
 
                 <div class="form-group">
-                    <label>Student ID</label>
-                    <input type="number" id="studentId" required>
+
+                    <label for="studentId">
+                        Student ID
+                    </label>
+
+                    <input
+                            type="number"
+                            id="studentId"
+                            placeholder="Enter Student ID"
+                    >
+
+                    <small
+                            id="idError"
+                            class="error"
+                    ></small>
+
                 </div>
 
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" id="studentName" required>
-                </div>
+                <!-- Name -->
 
                 <div class="form-group">
-                    <label>Age</label>
-                    <input type="number" id="studentAge" required>
+
+                    <label for="studentName">
+                        Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="studentName"
+                            placeholder="Enter Student Name"
+                    >
+
+                    <small
+                            id="nameError"
+                            class="error"
+                    ></small>
+
                 </div>
 
+                <!-- Age -->
+
                 <div class="form-group">
-                    <label>Department</label>
-                    <input type="text" id="studentDep" required>
+
+                    <label for="studentAge">
+                        Age
+                    </label>
+
+                    <input
+                            type="number"
+                            id="studentAge"
+                            placeholder="Enter Age"
+                    >
+
+                    <small
+                            id="ageError"
+                            class="error"
+                    ></small>
+
                 </div>
+
+                <!-- Department -->
+
+                <div class="form-group">
+
+                    <label for="studentDep">
+                        Department
+                    </label>
+
+                    <input
+                            type="text"
+                            id="studentDep"
+                            placeholder="Enter Department"
+                    >
+
+                    <small
+                            id="depError"
+                            class="error"
+                    ></small>
+
+                </div>
+
+                <!-- Buttons -->
 
                 <div class="btn-group">
-                    <button type="button" id="btnClearBtn">
+
+                    <button
+                            type="button"
+                            id="btnClearBtn">
+
                         Clear
+
                     </button>
 
-                    <button type="submit" id="btnSave">
+                    <button
+                            type="submit"
+                            id="btnSave">
+
                         Save Student
+
                     </button>
+
                 </div>
 
             </form>
 
         </div>
 
-        <!-- Table -->
+        <!-- =======================
+              Student Table
+        ======================== -->
+
         <div class="card">
 
             <h2>Students</h2>
@@ -228,23 +440,38 @@
             <table>
 
                 <thead>
+
                 <tr>
+
                     <th>ID</th>
+
                     <th>Name</th>
+
                     <th>Age</th>
+
                     <th>Department</th>
-                    <th>Created_AT</th>
-                    <th>Updated_AT</th>
+
+                    <th>Created At</th>
+
+                    <th>Updated At</th>
+
                     <th>Action</th>
+
                 </tr>
+
                 </thead>
 
                 <tbody id="tableBody">
 
                 <tr id="noDataRow">
-                    <td colspan="5" style="text-align:center;">
+
+                    <td colspan="7"
+                        style="text-align:center">
+
                         No Students Found
+
                     </td>
+
                 </tr>
 
                 </tbody>
@@ -258,122 +485,296 @@
 </div>
 
 <script>
-    /* JavaScript will come in Part 3 */
+
     const API_URL = "http://localhost:8080";
 
-    function showAlert(message, type) {
+    /*=====================================
+                ALERT
+    ======================================*/
+
+    function showAlert(message, type){
+
         const alertBox = document.getElementById("alertBox");
 
         alertBox.className = "alert alert-" + type;
         alertBox.innerText = message;
 
         setTimeout(() => {
-            alertBox.style.display = "none";
-        }, 3000);
+            alertBox.className = "alert";
+            alertBox.innerText = "";
+        },3000);
+
     }
 
-    function resetForm() {
+    /*=====================================
+            CLEAR VALIDATION
+    ======================================*/
+
+    function clearErrors(){
+
+        ["id","name","age","dep"].forEach(field=>{
+            document.getElementById(field+"Error").innerText="";
+        });
+
+        ["studentId","studentName","studentAge","studentDep"].forEach(id=>{
+            document.getElementById(id).classList.remove("input-error");
+        });
+
+    }
+
+    /*=====================================
+            VALIDATION
+    ======================================*/
+
+    function validateStudent(student){
+
+        let errors={};
+
+        if(isNaN(student.id) || student.id<=0){
+            errors.id="Student Id must be greater than 0";
+        }
+
+        if(student.name.trim()==""){
+            errors.name="Name is required";
+        }
+
+        if(isNaN(student.age) || student.age<=0){
+            errors.age="Age must be greater than 0";
+        }
+
+        if(student.dep.trim()==""){
+            errors.dep="Department is required";
+        }
+
+        return errors;
+
+    }
+
+    function showValidationErrors(errors){
+
+        clearErrors();
+
+        if(errors.id){
+            document.getElementById("idError").innerText=errors.id;
+            document.getElementById("studentId").classList.add("input-error");
+        }
+
+        if(errors.name){
+            document.getElementById("nameError").innerText=errors.name;
+            document.getElementById("studentName").classList.add("input-error");
+        }
+
+        if(errors.age){
+            document.getElementById("ageError").innerText=errors.age;
+            document.getElementById("studentAge").classList.add("input-error");
+        }
+
+        if(errors.dep){
+            document.getElementById("depError").innerText=errors.dep;
+            document.getElementById("studentDep").classList.add("input-error");
+        }
+
+    }
+
+    /*=====================================
+            RESET FORM
+    ======================================*/
+
+    function resetForm(){
+
         document.getElementById("studentForm").reset();
-        document.getElementById("studentId").disabled = false;
-        document.getElementById("isEditMode").value = "false";
-        document.getElementById("formTitle").innerText = "Add Student";
-        document.getElementById("btnSave").innerText = "Save Student";
+
+        document.getElementById("studentId").disabled=false;
+
+        document.getElementById("isEditMode").value="false";
+
+        document.getElementById("formTitle").innerText="Add Student";
+
+        document.getElementById("btnSave").innerText="Save Student";
+
+        clearErrors();
+
     }
 
-    async function loadStudents() {
+    /*=====================================
+            LOAD STUDENTS
+    ======================================*/
 
-        const response = await fetch(`${API_URL}/getAll`);
+    async function loadStudents(){
 
-        if (!response.ok) return;
+        try{
 
-        const students = await response.json();
+            const response=await fetch(`${API_URL}/getAll`);
 
-        const tableBody = document.getElementById("tableBody");
-        tableBody.innerHTML = "";
+            if(!response.ok){
+                throw new Error();
+            }
 
-        if (students.length === 0) {
-            tableBody.innerHTML = `
-        <tr id="noDataRow">
-            <td colspan="5" style="text-align:center;">No Students Found</td>
-        </tr>`;
+            const students=await response.json();
+
+            const tableBody=document.getElementById("tableBody");
+
+            tableBody.innerHTML="";
+
+            if(students.length===0){
+
+                tableBody.innerHTML=`
+            <tr id="noDataRow">
+                <td colspan="7">No Students Found</td>
+            </tr>
+            `;
+
+                return;
+            }
+
+            students.forEach(student=>{
+
+                tableBody.innerHTML+=`
+            <tr>
+
+                <td>${student.id}</td>
+
+                <td>${student.name}</td>
+
+                <td>${student.age}</td>
+
+                <td>${student.dep}</td>
+
+                <td>${student.createdAt ?? ""}</td>
+
+                <td>${student.updatedAt ?? ""}</td>
+
+                <td>
+
+                    <button
+                        class="editBtn"
+                        onclick="editStudent(${student.id})">
+                        Edit
+                    </button>
+
+                    <button
+                        class="deleteBtn"
+                        onclick="deleteStudent(${student.id})">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+            `;
+
+            });
+
+        }catch(e){
+
+            showAlert("Unable to load students","danger");
+
+        }
+
+    }
+
+    /*=====================================
+            EDIT STUDENT
+    ======================================*/
+
+    async function editStudent(id){
+
+        clearErrors();
+
+        const response=await fetch(`${API_URL}/get/${id}`);
+
+        if(!response.ok){
+
+            showAlert("Student not found","danger");
+
             return;
         }
 
-        students.forEach(student => {
+        const student=await response.json();
 
-            tableBody.innerHTML += `
-<tr id="row-${student.id}">
-    <td>${student.id}</td>
-    <td>${student.name}</td>
-    <td>${student.age}</td>
-    <td>${student.dep}</td>
-    <td>${student.createdAt}</td>
-    <td>${student.updatedAt}</td>
-    <td>
-        <button class="editBtn" onclick="editStudent(${student.id})">Edit</button>
-        <button class="deleteBtn" onclick="deleteStudent(${student.id})">Delete</button>
-    </td>
-</tr>`;
-        });
+        document.getElementById("studentId").value=student.id;
+        document.getElementById("studentName").value=student.name;
+        document.getElementById("studentAge").value=student.age;
+        document.getElementById("studentDep").value=student.dep;
+
+        document.getElementById("studentId").disabled=true;
+
+        document.getElementById("isEditMode").value="true";
+
+        document.getElementById("formTitle").innerText="Update Student";
+
+        document.getElementById("btnSave").innerText="Update Student";
+
     }
 
-    async function editStudent(id) {
+    /*=====================================
+            DELETE STUDENT
+    ======================================*/
 
-        const response = await fetch(`${API_URL}/get/${id}`);
+    async function deleteStudent(id){
 
-        if (!response.ok) {
-            showAlert("Student not found", "danger");
+        if(!confirm("Delete this student?")){
             return;
         }
 
-        const student = await response.json();
+        const response=await fetch(`${API_URL}/delete/${id}`,{
 
-        document.getElementById("studentId").value = student.id;
-        document.getElementById("studentName").value = student.name;
-        document.getElementById("studentAge").value = student.age;
-        document.getElementById("studentDep").value = student.dep;
+            method:"DELETE"
 
-        document.getElementById("studentId").disabled = true;
-        document.getElementById("isEditMode").value = "true";
-
-        document.getElementById("formTitle").innerText = "Update Student";
-        document.getElementById("btnSave").innerText = "Update Student";
-    }
-
-    async function deleteStudent(id) {
-
-        if (!confirm("Delete this student?")) return;
-
-        const response = await fetch(`${API_URL}/delete/${id}`, {
-            method: "DELETE"
         });
 
-        if (response.ok) {
-            showAlert("Student Deleted Successfully", "success");
+        if(response.ok){
+
+            showAlert("Student Deleted Successfully","success");
+
             loadStudents();
-        } else {
-            showAlert("Delete Failed", "danger");
+
+        }else{
+
+            showAlert("Delete Failed","danger");
+
         }
+
     }
 
-    document.getElementById("studentForm").addEventListener("submit", async function(e){
+    /*=====================================
+            SAVE / UPDATE
+    ======================================*/
+
+    document.getElementById("studentForm").addEventListener("submit",async function(e){
 
         e.preventDefault();
 
-        const student = {
-            id: Number(document.getElementById("studentId").value),
-            name: document.getElementById("studentName").value,
-            age: Number(document.getElementById("studentAge").value),
-            dep: document.getElementById("studentDep").value
+        const student={
+
+            id:Number(document.getElementById("studentId").value),
+
+            name:document.getElementById("studentName").value,
+
+            age:Number(document.getElementById("studentAge").value),
+
+            dep:document.getElementById("studentDep").value
+
         };
 
-        const editMode = document.getElementById("isEditMode").value === "true";
+        const errors=validateStudent(student);
+
+        if(Object.keys(errors).length>0){
+
+            showValidationErrors(errors);
+
+            return;
+        }
+
+        clearErrors();
+
+        const editMode=document.getElementById("isEditMode").value==="true";
 
         let response;
 
         if(editMode){
 
-            response = await fetch(`${API_URL}/update/${student.id}`,{
+            response=await fetch(`${API_URL}/update/${student.id}`,{
 
                 method:"PUT",
 
@@ -387,7 +788,7 @@
 
         }else{
 
-            response = await fetch(`${API_URL}/create`,{
+            response=await fetch(`${API_URL}/create`,{
 
                 method:"POST",
 
@@ -404,7 +805,8 @@
         if(response.ok){
 
             showAlert(
-                editMode ? "Student Updated Successfully"
+                editMode
+                    ? "Student Updated Successfully"
                     : "Student Added Successfully",
                 "success"
             );
@@ -415,16 +817,32 @@
 
         }else{
 
-            showAlert("Operation Failed","danger");
+            const msg=await response.text();
+
+            showAlert(msg || "Operation Failed","danger");
 
         }
 
     });
 
-    document.getElementById("btnClearBtn").addEventListener("click", resetForm);
+    /*=====================================
+            CLEAR BUTTON
+    ======================================*/
 
-    window.onload = loadStudents;
+    document.getElementById("btnClearBtn").addEventListener("click",resetForm);
+
+    /*=====================================
+            PAGE LOAD
+    ======================================*/
+
+    window.onload=function(){
+
+        loadStudents();
+
+    };
+
 </script>
+
 
 </body>
 </html>

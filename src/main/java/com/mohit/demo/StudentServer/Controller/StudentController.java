@@ -4,6 +4,7 @@ import com.mohit.demo.StudentServer.DTO.CreateStudentRequestDTO;
 import com.mohit.demo.StudentServer.DTO.CreateStudentResponseDTO;
 import com.mohit.demo.StudentServer.Entity.Student;
 import com.mohit.demo.StudentServer.Service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,50 +14,90 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 public class StudentController {
-    //1. to store the data
-    StudentService studentService;
-    public StudentController(StudentService studentService){
-        this.studentService=studentService;
+
+    private final StudentService studentService;
+
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
+
+    // ==========================
+    // Create Student
+    // ==========================
+
     @PostMapping("/create")
-    public ResponseEntity<CreateStudentResponseDTO> storeStudent(
-            @RequestBody CreateStudentRequestDTO requestDTO) {
+    public ResponseEntity<CreateStudentResponseDTO> createStudent(
+            @Valid @RequestBody CreateStudentRequestDTO requestDTO) {
 
-        CreateStudentResponseDTO responseDTO =
-                studentService.studentValidate(requestDTO);
+        CreateStudentResponseDTO response =
+                studentService.createStudent(requestDTO);
 
-        if(responseDTO == null){
-            return ResponseEntity.badRequest().body(null);
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    // ==========================
+    // Get Student By Id
+    // ==========================
+
     @GetMapping("/get/{id}")
-    public  ResponseEntity<?>  getStudentById(@PathVariable  int id){
-        Student student=studentService.getStudentById(id);
-        return ResponseEntity.status(200).body(student);
-    }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteStudentById(@PathVariable int id){
-        Student student=studentService.deleteStudentById(id);
-        return ResponseEntity.status(200).body("Student  Deleted successfully");
+    public ResponseEntity<?> getStudentById(@PathVariable int id) {
 
+        Student student = studentService.getStudentById(id);
 
-
-    }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody Student studentDetails) {
-        Student updatedStudent = studentService.updateStudent(id, studentDetails);
-        if (updatedStudent == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Update failed: Student not found or validation failed.");
+        if (student == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Student not found");
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(updatedStudent);
+        return ResponseEntity.ok(student);
     }
+
+    // ==========================
+    // Get All Students
+    // ==========================
+
     @GetMapping("/getAll")
-    public List<Student> getAllStudents() {
-        return studentService.getAllStudents();
+    public ResponseEntity<List<Student>> getAllStudents() {
+
+        return ResponseEntity.ok(studentService.getAllStudents());
+
+    }
+
+    // ==========================
+    // Update Student
+    // ==========================
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateStudent(
+            @PathVariable int id,
+            @Valid @RequestBody CreateStudentRequestDTO requestDTO) {
+
+        Student updatedStudent =
+                studentService.updateStudent(id, requestDTO);
+
+        if (updatedStudent == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Student not found");
+        }
+
+        return ResponseEntity.ok(updatedStudent);
+    }
+
+    // ==========================
+    // Delete Student
+    // ==========================
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteStudentById(@PathVariable int id) {
+
+        Student student = studentService.deleteStudentById(id);
+
+        if (student == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Student not found");
+        }
+
+        return ResponseEntity.ok("Student Deleted Successfully");
     }
 
 }
